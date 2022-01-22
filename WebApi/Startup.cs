@@ -11,6 +11,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.OpenApi.Models;
 using WebApi.DBOperations;
 
 namespace WebApi
@@ -28,10 +29,17 @@ namespace WebApi
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
-            
+
             // Dependency Injection modülüne DbContext'in verilmesi 
             services.AddDbContext<CounselingCenterDbContext>(options =>
                 options.UseInMemoryDatabase(databaseName: "CounselingCenterDB"));
+
+
+            // Swagger Implementation
+            services.AddSwaggerGen(s =>
+            {
+                s.SwaggerDoc("v1", new OpenApiInfo {Title = "CounselingCenter", Version = "v1"});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +48,8 @@ namespace WebApi
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(s => s.SwaggerEndpoint("/swagger/v1/swagger.json", "CounselingCenter v1"));
             }
 
             app.UseHttpsRedirection();
