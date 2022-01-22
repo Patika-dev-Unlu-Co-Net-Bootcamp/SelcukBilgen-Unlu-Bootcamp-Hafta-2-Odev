@@ -12,5 +12,5 @@ Restful Api Geliştirin
 - global exception middleware i oluşturun  
 
 Çalışma notlarıma ulaşmak için aşağıdaki linke tıklayabilirsiniz.  
-![https://cdn.iconscout.com/icon/free/png-128/notion-2296040-1911999.png](https://cdn.iconscout.com/icon/free/png-128/notion-2296040-1911999.png)
+![https://www.notion.so/nl-Co-Net-Bootcamp-Proje-32d8b5962fe14cc2aa328481981f435b](https://cdn.iconscout.com/icon/free/png-128/notion-2296040-1911999.png)  
 [Ünlü&Co .Net Bootcamp Proje](https://www.notion.so/nl-Co-Net-Bootcamp-Proje-32d8b5962fe14cc2aa328481981f435b)
