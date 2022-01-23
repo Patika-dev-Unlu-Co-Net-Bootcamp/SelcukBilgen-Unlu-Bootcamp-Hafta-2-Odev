@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using WebApi.Common;
 using WebApi.DBOperations;
 using WebApi.Entities;
@@ -11,10 +12,12 @@ namespace WebApi.UserOperations.CreateUser
         public CreateUserModel Model { get; set; }
 
         private readonly CounselingCenterDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public CreateUserCommand(CounselingCenterDbContext dbContext)
+        public CreateUserCommand(CounselingCenterDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public void Handle()
@@ -24,11 +27,7 @@ namespace WebApi.UserOperations.CreateUser
             if (user is not null)
                 throw new InvalidOperationException("Kullanıcı daha önce kayıt olmuş");
 
-            user = new User();
-            user.FirstName = Model.FirstName;
-            user.LastName = Model.LastName;
-            user.Email = Model.Email;
-            user.UserRole = (UserEnum) Model.UserRole;
+            user = _mapper.Map<User>(Model); // Model ile gelen veriyi User objesine convert et.
 
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();

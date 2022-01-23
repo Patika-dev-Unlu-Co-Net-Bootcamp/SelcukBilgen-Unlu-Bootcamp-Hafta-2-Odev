@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using WebApi.DBOperations;
 using WebApi.Entities;
 
@@ -8,26 +9,20 @@ namespace WebApi.UserOperations.GetUsers
     public class GetUsersQuery
     {
         private readonly CounselingCenterDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public GetUsersQuery(CounselingCenterDbContext dbContext)
+        public GetUsersQuery(CounselingCenterDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public List<UserViewModel> Handle()
         {
             var userList = _dbContext.Users.OrderBy(u => u.Id).ToList<User>();
-            List<UserViewModel> vm = new List<UserViewModel>();
-            foreach (var user in userList)
-            {
-                vm.Add(new UserViewModel()
-                {
-                    Email = user.Email,
-                    UserName = $"{user.FirstName} {user.LastName}",
-                    UserRole = (user.UserRole).ToString()
-                });
-            }
-
+            List<UserViewModel> vm = _mapper.Map<List<UserViewModel>>(userList);
+            
+            
             return vm;
         }
     }

@@ -1,5 +1,6 @@
 using System;
 using System.Linq;
+using AutoMapper;
 using WebApi.DBOperations;
 
 namespace WebApi.UserOperations.GetUserDetail
@@ -7,11 +8,13 @@ namespace WebApi.UserOperations.GetUserDetail
     public class GetUserDetailQuery
     {
         private readonly CounselingCenterDbContext _dbContext;
+        private readonly IMapper _mapper;
         public int UserId { get; set; }
 
-        public GetUserDetailQuery(CounselingCenterDbContext dbContext)
+        public GetUserDetailQuery(CounselingCenterDbContext dbContext, IMapper mapper)
         {
             _dbContext = dbContext;
+            _mapper = mapper;
         }
 
         public UserDetailViewModel Handle()
@@ -19,11 +22,8 @@ namespace WebApi.UserOperations.GetUserDetail
             var user = _dbContext.Users.Where(u => u.Id == UserId).SingleOrDefault();
             if (user is null)
                 throw new InvalidOperationException("User bulunamadı");
-            
-            UserDetailViewModel vm = new UserDetailViewModel();
-            vm.UserName = $"{user.FirstName} {user.LastName}";
-            vm.Email = user.Email;
-            vm.UserRole = user.UserRole.ToString();
+
+            UserDetailViewModel vm = _mapper.Map<UserDetailViewModel>(user);
 
             return vm;
         }

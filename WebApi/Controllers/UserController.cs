@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DBOperations;
 using WebApi.Entities;
@@ -18,17 +19,19 @@ namespace WebApi.Controllers
     {
         // readonly uygulama içerisinden değiştirilemez. Yalnızca constructor ile set edilebilir.
         private readonly CounselingCenterDbContext _context;
+        private readonly IMapper _mapper;
 
-        public UserController(CounselingCenterDbContext context) // constructor ile inject etme.
+        public UserController(CounselingCenterDbContext context, IMapper mapper) // constructor ile inject etme.
         {
             _context = context;
+            _mapper = mapper;
         }
 
         // Tüm kullanıcıları getir
         [HttpGet]
         public IActionResult GetUsers()
         {
-            GetUsersQuery query = new GetUsersQuery(_context);
+            GetUsersQuery query = new GetUsersQuery(_context, _mapper);
             var result = query.Handle();
             return Ok(result);
         }
@@ -40,7 +43,7 @@ namespace WebApi.Controllers
             UserDetailViewModel result;
             try
             {
-                GetUserDetailQuery query = new GetUserDetailQuery(_context);
+                GetUserDetailQuery query = new GetUserDetailQuery(_context, _mapper);
                 query.UserId = id;
                 result = query.Handle();
             }
@@ -56,7 +59,7 @@ namespace WebApi.Controllers
         [HttpPost]
         public IActionResult AddUser([FromBody] CreateUserModel newUser)
         {
-            CreateUserCommand command = new CreateUserCommand(_context);
+            CreateUserCommand command = new CreateUserCommand(_context, _mapper);
             try
             {
                 command.Model = newUser;
