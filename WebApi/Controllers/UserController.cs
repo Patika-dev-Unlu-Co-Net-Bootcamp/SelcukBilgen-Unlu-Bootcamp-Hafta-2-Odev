@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using AutoMapper;
+using FluentValidation;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.DBOperations;
 using WebApi.Entities;
@@ -63,6 +65,16 @@ namespace WebApi.Controllers
             try
             {
                 command.Model = newUser;
+                CreateUserCommandValidator validator = new CreateUserCommandValidator();
+                ValidationResult result = validator.Validate(command);
+                validator.ValidateAndThrow(command);
+                
+                /*if(!result.IsValid)
+                    foreach (var item in result.Errors)
+                    {
+                        Console.WriteLine("Property "+item.PropertyName+"- Error Message:"+item.ErrorMessage);
+                    }*/
+                
                 command.Handle();
             }
             catch (Exception e)
