@@ -62,26 +62,10 @@ namespace WebApi.Controllers
         public IActionResult AddUser([FromBody] CreateUserModel newUser)
         {
             CreateUserCommand command = new CreateUserCommand(_context, _mapper);
-            try
-            {
-                command.Model = newUser;
-                CreateUserCommandValidator validator = new CreateUserCommandValidator();
-                ValidationResult result = validator.Validate(command);
-                validator.ValidateAndThrow(command);
-                
-                /*if(!result.IsValid)
-                    foreach (var item in result.Errors)
-                    {
-                        Console.WriteLine("Property "+item.PropertyName+"- Error Message:"+item.ErrorMessage);
-                    }*/
-                
-                command.Handle();
-            }
-            catch (Exception e)
-            {
-                return BadRequest(e.Message);
-            }
-
+            command.Model = newUser;
+            CreateUserCommandValidator validator = new CreateUserCommandValidator();
+            validator.ValidateAndThrow(command);
+            command.Handle();
 
             return StatusCode(201);
         }
