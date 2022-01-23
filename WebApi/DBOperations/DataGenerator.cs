@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using WebApi.Common;
 using WebApi.Entities;
 
 namespace WebApi.DBOperations
@@ -21,39 +22,37 @@ namespace WebApi.DBOperations
                     new User
                     {
                         Email = "mahmut.tuncer@mail.com",
-                        UserName = "Mahmut Tuncer",
-                        UserRole = UserRole.Specialist
+                        FirstName = "Mahmut",
+                        LastName = "Tuncer",
+                        UserRole = UserEnum.Specialist
                     },
                     new User
                     {
                         Email = "nihat.dogan@mail.com",
-                        UserName = "Nihat Doğan",
-                        UserRole = UserRole.Specialist
+                        FirstName = "Nihat",
+                        LastName = "Doğan",
+                        UserRole = UserEnum.Specialist
                     },
                     new User
                     {
                         Email = "ismail.turut@mail.com",
-                        UserName = "İsmail Türüt",
-                        UserRole = UserRole.Specialist
+                        FirstName = "İsmail",
+                        LastName = "Türüt",
+                        UserRole = UserEnum.Specialist
                     },
                     new User
                     {
-                       
                         Email = "selcuk.bilgen@mail.com",
-                        UserName = "Selçuk Bilgen",
-                        UserRole = UserRole.Client
+                        FirstName = "Selçuk",
+                        LastName = "Bilgen",
+                        UserRole = UserEnum.Client
                     },
                     new User
                     {
                         Email = "hakki.bulut@mail.com",
-                        UserName = "Hakkı Bulut",
-                        UserRole = UserRole.Client
-                    },
-                    new User
-                    {
-                        Email = "serkan.merkan@mail.com",
-                        UserName = "Serkan Merkan",
-                        UserRole = UserRole.Client
+                        FirstName = "Hakkı",
+                        LastName = "Bulut",
+                        UserRole = UserEnum.Client
                     }
                 );
 
